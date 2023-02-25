@@ -28,102 +28,30 @@ const int mod = 1e9 + 7;
 const int N = 1e5 + 5;
 const int inf = 1e9;
 const ll INF = 1e18;
+void dbg(string msg, int zvar);
+void dbg_vector(vector<int> arr);
+vector<int> get_input_as_vector();
 
-void dbg(string msg, int zvar)
-{
-    std::cout << " " + msg + " " << zvar << '\n';
-}
-
-void dbg_vector(vector<int> arr)
-{
-    copy(arr.begin(),
-         arr.end(),
-         ostream_iterator<int>(cout, " "));
-}
-
-int BinarySearch(vector<int> &arr, int target, int start = 0, int end = -1)
-{
-    if (end == -1)
-        end = arr.size() - 1;
-
-    while (start <= end)
-    {
-        int mid = start + (end - start) / 2;
-        if (arr[mid] == target)
-            return mid;
-        else if (arr[mid] > target)
-            end = mid - 1;
-        else
-            start = mid + 1;
-    }
-    return -1;
-}
-
-int PivotIndex(vector<int> &arr)
-{
-
-    int start = 0, end = arr.size() - 1;
-
-    while (start <= end)
-    {
-
-        int mid = start + (end - start) / 2;
-
-        // terminating condition
-        // ascending order
-        if (mid + 1 < arr.size() && mid >= 0 && arr[mid] > arr[mid + 1] && arr[mid] > arr[mid - 1])
-        {
-            return mid;
-        }
-
-        if (arr[start] > arr[mid])
-        {
-            // co-ordinate line coming baack from y line
-            // search left
-            end = mid - 1;
-        }
-        else
-        {
-            start = mid + 1;
-        }
-    }
-    return -1;
-}
-void search_in_rotated_sorted_array()
-{
-    vector<int> arr{1, 2, 3, 4, 5};
-    int target = 5;
-
-    // find pivot index
-    int pivot_index = PivotIndex(arr);
-    dbg("pivot_index", pivot_index);
-    // determine where could be the element
-    if (pivot_index == -1)
-    {
-        // return pivot
-        dbg("pivot_index", -1);
-    }
-    // determine where is the element to the right or left
-    // apply binary search
-    if (arr[0] < target && target <= arr[pivot_index])
-    {
-        dbg("to the left", BinarySearch(arr, target, 0, pivot_index));
-    }
-    else
-    {
-        // to the right of search space
-        dbg("to the right ", BinarySearch(arr, target, pivot_index + 1));
-    }
-}
+// int search_in_rotated_sorted_array2()
+// {
+//     // https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
+// }
 void solve()
 {
-    search_in_rotated_sorted_array();
+    // vector<int> arr = get_input_as_vector();
+    // dbg_vector(arr);
+    // vector<vector<int>> arr{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
+    // int target = 0;
+    // dbg("ans", matrix_binary_search(arr, target));
+    char ch[10];
+    cin >> ch;
+    cout << ch;
 }
 
 int main()
 {
     ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    std::cin.tie(NULL);
 
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
@@ -132,18 +60,44 @@ int main()
 #endif
 
     int t = 1;
-    // /*is Single Test case?*/ cin >> t;
+    /*is Single Test case?*/ std::cin >> t;
     while (t--)
     {
-        cout << "-----------Compile Time----------\n";
-
+        cout << "-----------Compile Time----------";
         std::time_t result = std::time(nullptr);
         std::cout << std::ctime(&result);
-        cout << "-----------------start-----------\n";
+        cout << "\n-----------------start-----------\n";
         solve();
-        cout << "-----------------end-------------\n";
+        cout << "\n-----------------end-------------\n";
     }
 
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
     return 0;
+}
+
+void dbg(string msg, int zvar)
+{
+    std::cout << "\n " + msg + " " << zvar << '\n';
+}
+
+void dbg_vector(vector<int> arr)
+{
+    copy(arr.begin(),
+         arr.end(),
+         ostream_iterator<int>(cout, " "));
+}
+vector<int> get_input_as_vector()
+{
+    int size = 0;
+    std::cin >> size;
+    vector<int> input_vec;
+
+    while (size--)
+    {
+        int temp = 0;
+        std::cin >> temp;
+        input_vec.push_back(temp);
+    }
+
+    return input_vec;
 }
