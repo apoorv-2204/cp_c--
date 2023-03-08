@@ -193,4 +193,46 @@ public:
     }
 
     // https: // leetcode.com/problems/minimum-time-difference/
+    int findMinDifference(vector<string> &timePoints)
+    {
+        vector<int> time;
+        for (int i = 0; i < timePoints.size(); i++)
+        {
+            int hours = std::stoi(timePoints[i].substr(0, 2));
+            int mins = std::stoi(timePoints[i].substr(3, 5));
+            time.push_back(hours * 60 + mins);
+        }
+
+        // step 2 sort
+        sort(time.begin(), time.end());
+        // mint start from 0 and goes to 1440 and repeat
+        //  find min_diff;
+        int min_diff = findCyclicMinDiff(time[0], time[1], 0, 1440);
+        for (int i = 1; i < time.size() - 1; i++)
+        {
+            min_diff = min(min_diff, findCyclicMinDiff(time[i], time[i + 1], 0, 1440));
+        }
+        min_diff = min(min_diff, findCyclicMinDiff(time[0], time[time.size() - 1], 0, 1440));
+
+        return min_diff;
+    }
+
+    int findCyclicMinDiff(int a, int b, int cycleStart, int cycleEnd)
+    {
+        int mid = (cycleStart + cycleEnd) / 2;
+        if ((a <= mid && b <= mid) || (a >= mid && b >= mid))
+        {
+            return abs(a - b);
+        }
+        else if (a > mid)
+        {
+            // a closer to end
+            return min(abs(a - b), abs(cycleEnd - a) + abs(cycleStart - b));
+        }
+        else
+        {
+            // b closer to end
+            return min(abs(a - b), abs(cycleEnd - b) + abs(cycleStart - a));
+        }
+    }   
 };
