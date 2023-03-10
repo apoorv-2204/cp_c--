@@ -1,5 +1,5 @@
-#include <iostream>
-#include <string.h>
+#include <bits/stdc++.h>
+
 using namespace std;
 
 class Solution
@@ -234,5 +234,261 @@ public:
             // b closer to end
             return min(abs(a - b), abs(cycleEnd - b) + abs(cycleStart - a));
         }
-    }   
+    }
+
+    // https://leetcode.com/problems/palindromic-substrings
+    int countSubstrings(string s)
+    {
+        int left_pointer = 0, right_pointer = 0;
+        int counter = 0;
+        int len = s.size();
+        // loop through string
+        // traverse until window reach to end
+        // set pointer to start and end
+        // is it palindrome
+        for (int i = 0; i < len; i++)
+        {
+            left_pointer = i;
+            right_pointer = left_pointer;
+
+            while (left_pointer >= 0 && right_pointer < len && s[left_pointer] == s[right_pointer])
+            {
+                counter++;
+                left_pointer--;
+                right_pointer++;
+            }
+            left_pointer = i;
+            right_pointer = left_pointer + 1;
+            while (left_pointer >= 0 && right_pointer < len && s[left_pointer] == s[right_pointer])
+            {
+                counter++;
+                left_pointer--;
+                right_pointer++;
+            }
+        }
+        return counter;
+    }
+
+    // https://leetcode.com/problems/valid-anagram
+    bool isAnagram(string s, string t)
+    {
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+        return s == t;
+    }
+    // https://leetcode.com/problems/valid-anagram
+    bool isAnagram(string s, string t)
+    {
+        if (s.length() != t.length())
+        {
+            return false;
+        }
+        int counts[26] = {0};
+        for (int i = 0; i < s.length(); i++)
+        {
+            counts[s[i] - 'a']++;
+            counts[t[i] - 'a']--;
+        }
+        for (int count : counts)
+        {
+            if (count != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // https : // leetcode.com/problems/reverse-only-letters
+    bool
+    isEnglishLetter(char c)
+    {
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+    }
+    string reverseOnlyLetters(string s)
+    {
+        int left = 0, right = s.length() - 1;
+        while (left < right)
+        {
+            if (!isEnglishLetter(s[left]))
+            {
+                left++;
+            }
+            else if (!isEnglishLetter(s[right]))
+            {
+                right--;
+            }
+            else
+            {
+                swap(s[left++], s[right--]);
+            }
+        }
+        return s;
+    }
+    // https : // leetcode.com/problems/reverse-vowels-of-a-string/
+    string
+    reverseVowels(string s)
+    {
+        int left = 0, len = s.size() - 1;
+        int right = len;
+        while (left < right)
+        {
+            bool lV = isVowel(s[left]);
+            bool rV = isVowel(s[right]);
+            if (lV && rV)
+            {
+                std::swap(s[left], s[right]);
+                left++;
+                right--;
+            }
+            else if (!lV)
+            {
+                left++;
+            }
+            else if (!rV)
+            {
+                right--;
+            }
+        }
+        return s;
+    }
+
+    bool isVowel(char ch)
+    {
+        ch = tolower(ch);
+        // Convert to lowercase for case-insensitive comparison
+        return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
+    }
+
+    // https://leetcode.com/problems/reverse-string
+    void reverseString(vector<char> &s)
+    {
+        int left = 0, len = s.size() - 1;
+        int right = len;
+
+        while (left < right)
+        {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
+    }
+    // https : // leetcode.com/problems/isomorphic-strings
+    bool
+    isIsomorphic(string s, string t)
+    {
+        if (s.size() != t.size())
+            return false;
+
+        int len = s.size() - 1;
+        std::map<char, char> language_S_to_T;
+        std::map<char, char> language_T_to_S;
+
+        for (int i = 0; i <= len; i++)
+        {
+            // Two strings s and t are isomorphic if the characters in s can be replaced to get t
+            char ch_s = s[i];
+            char ch_t = t[i];
+            if (language_S_to_T.find(ch_s) == language_S_to_T.end() &&
+                language_T_to_S[ch_t] == 0)
+            {
+                // if mapping dont exist create a mappning
+                language_S_to_T[ch_s] = ch_t;
+                language_T_to_S[ch_t] = ch_s;
+            }
+            else
+            {
+                // mapping already done
+                // check for conflict
+                if (language_S_to_T[ch_s] != ch_t)
+                    return false;
+                if (language_T_to_S[ch_t] != ch_s)
+                    return false;
+            }
+        }
+        return true;
+    }
+    bool isIsomorphic2(string s, string t)
+    {
+        if (s.size() != t.size())
+            return false;
+
+        int len = s.size();
+        char language_S_to_T[256] = {0};
+        char language_T_to_S[256] = {0};
+
+        for (int i = 0; i < len; i++)
+        {
+            char ch_s = s[i];
+            char ch_t = t[i];
+
+            if (language_S_to_T[ch_s] == 0 && language_T_to_S[ch_t] == 0)
+            {
+                language_S_to_T[ch_s] = ch_t;
+                language_T_to_S[ch_t] = ch_s;
+            }
+            else
+            {
+                if (language_S_to_T[ch_s] != ch_t)
+                    return false;
+                if (language_T_to_S[ch_t] != ch_s)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+    bool isIsomorphic3(string s, string t)
+    {
+        if (s.size() != t.size())
+            return false;
+
+        int len = s.size();
+        unordered_map<char, char> s_to_t_map;
+        unordered_map<char, char> t_to_s_map;
+
+        for (int i = 0; i < len; i++)
+        {
+            char ch_s = s[i];
+            char ch_t = t[i];
+
+            if (s_to_t_map.count(ch_s) == 0 && t_to_s_map.count(ch_t) == 0)
+            {
+                s_to_t_map[ch_s] = ch_t;
+                t_to_s_map[ch_t] = ch_s;
+            }
+            else if (s_to_t_map[ch_s] != ch_t || t_to_s_map[ch_t] != ch_s)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool isIsomorphic4(string s, string t)
+    {
+
+        int n = s.size();
+        int s_to_t[256] = {0}; // array to keep track of mappings from s to t
+        int t_to_s[256] = {0}; // array to keep track of mappings from t to s
+
+        for (int i = 0; i < n; i++)
+        {
+            if (s_to_t[s[i]] == 0 && t_to_s[t[i]] == 0)
+            {
+                // if mappings don't exist, create new ones
+                s_to_t[s[i]] = t[i];
+                t_to_s[t[i]] = s[i];
+            }
+            else if (s_to_t[s[i]] != t[i] || t_to_s[t[i]] != s[i])
+            {
+                // if mappings exist but are different, return false
+                return false;
+            }
+        }
+
+        return true;
+    }
 };
