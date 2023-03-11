@@ -491,4 +491,70 @@ public:
 
         return true;
     }
+
+    // https://leetcode.com/problems/reorganize-string
+    string reorganizeString(string s)
+    {
+        // find max occuring char
+        int hashmap[26] = {0};
+        int len = s.size() - 1;
+
+        // calculate occurencce of charachters
+        for (int i = 0; i <= len; i++)
+        {
+            hashmap[s[i] - 'a']++;
+        } // O{n}
+
+        // find max occuring char
+        int max_freq = hashmap[0];
+        char max_freq_char = ' ';
+        int max_freq_char_index = 0;
+
+        for (int i = 0; i < 26; i++)
+        {
+            if (max_freq <= hashmap[i])
+            {
+                max_freq = hashmap[i];
+                max_freq_char_index = i;
+                max_freq_char = i + 'a';
+            }
+        }
+
+        // determine string with non two adjacent same charachter exists
+        if ((2 * max_freq - 1) > len + 1)
+        {
+            return "";
+        }
+
+        // place first highest recurring element
+        int index = 0;
+        for (; index <= len; index += 2)
+        {
+            if (hashmap[max_freq_char_index])
+            {
+                s[index] = max_freq_char;
+                hashmap[max_freq_char_index]--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        // cout<<"strings =" <<s<<endl;
+        // for(int i=0; i<26; i++) cout<< hashmap[i]<< " ";
+
+        // place the rest of elements
+        for (int i = 0; i < 26; i++)
+        {
+            while (hashmap[i] > 0)
+            {
+                index = index >= s.length() ? 1 : index;
+                s[index] = i + 'a';
+                hashmap[i]--;
+                index += 2;
+            }
+        }
+
+        return s;
+    }
 };
