@@ -32,20 +32,32 @@ void dbg(string msg, int zvar);
 void dbg_vector(vector<int> arr);
 vector<int> get_input_as_vector();
 
-// int search_in_rotated_sorted_array2()
-// {
-//     // https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
-// }
+void print_digits_recursion_in_reverse(int n)
+{
+    if (n == 0)
+        return;
+
+    cout << n % 10 << " ";
+    print_digits_recursion_in_reverse(n / 10);
+}
+
+void print_digits_recursion(int n)
+{
+    if (n == 0)
+        return;
+    print_digits_recursion(n / 10);
+    cout << n % 10 << " ";
+}
 void solve()
 {
-    // vector<int> arr = get_input_as_vector();
-    // dbg_vector(arr);
-    // vector<vector<int>> arr{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
-    // int target = 0;
-    // dbg("ans", matrix_binary_search(arr, target));
-    char ch[10];
-    cin >> ch;
-    cout << ch;
+    print_digits_recursion(569);
+    cout << endl;
+    print_digits_recursion_in_reverse(569);
+
+    // for (auto r : res)
+    // {
+    //     cout << r << " ";
+    // }
 }
 
 int main()
@@ -55,7 +67,7 @@ int main()
 
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
-    freopen("error.txt", "w", stderr);  
+    freopen("error.txt", "w", stderr);
     freopen("output.txt", "w", stdout);
 #endif
 
