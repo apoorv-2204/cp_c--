@@ -28,36 +28,131 @@ const int mod = 1e9 + 7;
 const int N = 1e5 + 5;
 const int inf = 1e9;
 const ll INF = 1e18;
-void dbg(string msg, int zvar);
-void dbg_vector(vector<int> arr);
-vector<int> get_input_as_vector();
 
-void print_digits_recursion_in_reverse(int n)
+// void dbg(string msg, int zvar);
+// void dbg_vector(vector<int> arr);
+// vector<int> get_input_as_vector();
+// bool isArraySorted(vector<int> &arr, int &index, int &last_index)
+// {
+//     if (index == last_index)
+//         return true;
+
+//     // for recurrent element we dont return false
+//     if (!(arr[index] <= arr[index + 1]))
+//         return false;
+
+//     return isArraySorted(arr, ++index, last_index);
+// }
+
+// int binarySearch(vector<int> &arr, int &start, int &end, int &last_index, int &target)
+// {
+//     if (start > end)
+//         return -1;
+
+//     int mid = start + (end - start) / 2;
+
+//     if (arr[mid] == target)
+//         return mid;
+
+//     if (target > arr[mid])
+//     {
+//         start = mid + 1;
+//     }
+//     else
+//     {
+//         end = mid = 1;
+//     }
+//     return binarySearch(arr, start, end, last_index, target);
+// }
+// void solveMaze()
+
+//     void solve()
+// {
+//     int main[3][3] = {{1, 0, 0}, {1, 1, 0}, {1, 1, 1}};
+//     int i, j = 0, row = 3, col = 3;
+//     vector<vector<bool>> isVisitedArray(row, vector<bool>(col, false));
+//     isVisitedArray[0][0] = true;
+//     vector<string> path;
+//     string output = "";
+// }
+
+class Node
 {
-    if (n == 0)
-        return;
+public:
+    Node *next;
+    int data;
+    Node *prev;
 
-    cout << n % 10 << " ";
-    print_digits_recursion_in_reverse(n / 10);
-}
+    Node()
+    {
+        this->next = nullptr;
+        this->data = 0;
+    }
 
-void print_digits_recursion(int n)
+    Node(int data)
+    {
+        this->next = nullptr;
+        this->data = data;
+    }
+
+    Node(Node &other)
+    {
+        // ->is applied to poitner type
+        this->next = other.next;
+        this->data = other.data;
+    }
+};
+
+class SLL
 {
-    if (n == 0)
-        return;
-    print_digits_recursion(n / 10);
-    cout << n % 10 << " ";
-}
+    Node *head;
+    Node *tail;
+
+public:
+    SLL(int data)
+    {
+        head = tail = new Node(data);
+    }
+
+    void insertAtHead(int data)
+    {
+        Node *newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void insertAtTail(int data)
+    {
+        Node *newNode = new Node(data);
+        tail->next = newNode;
+        tail = newNode;
+    }
+
+    void print()
+    {
+        Node *current = head;
+        while (current != nullptr)
+        {
+            cout << current->data << endl;
+            current = current->next;
+        }
+    }
+};
+
 void solve()
 {
-    print_digits_recursion(569);
-    cout << endl;
-    print_digits_recursion_in_reverse(569);
+    // dynamic allocating memory
+    SLL *temp = new SLL(10);
+    temp->insertAtHead(20);
+    temp->insertAtHead(30);
+    temp->insertAtHead(40);
 
-    // for (auto r : res)
-    // {
-    //     cout << r << " ";
-    // }
+    temp->insertAtTail(100);
+    temp->insertAtTail(200);
+    temp->insertAtTail(300);
+    temp->insertAtTail(400);
+
+    temp->print();
 }
 
 int main()
