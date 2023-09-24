@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/uniris/Documents/apoorv/cpp/main",
+            "program": "${workspaceFolder}/build/main_exec",
             "args": [
                 "4",
                 "3",
@@ -16,20 +16,19 @@
                 "1"
             ],
             "stopAtEntry": false,
-            "cwd": "/home/uniris/Documents/apoorv/cpp",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "pipeTransport": {
-                "pipeCwd": "/usr/bin",
-                "pipeProgram": "/usr/bin/ssh",
-                "pipeArgs": [],
-                "debuggerPath": " /usr/bin/gdb"
-            },
-            "sourceFileMap": {
-                // "remote": "local"
-                "/home/uniris/Documents/apoorv/cpp": "${workspaceFolder}"
-            }
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb",
         }
     ]
 }
