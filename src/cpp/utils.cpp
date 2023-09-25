@@ -13,13 +13,13 @@ void dbg(std::string msg, int zvar)
 
 void dbg_vector(std::vector<int> arr)
 {
-   std::copy(arr.begin(),arr.end(), std::ostream_iterator<int>( std::cout, " "));
+    std::copy(arr.begin(), arr.end(), std::ostream_iterator<int>(std::cout, " "));
 }
 std::vector<int> get_input_as_vector()
 {
     int size = 0;
     std::cin >> size;
-     std::vector<int> input_vec;
+    std::vector<int> input_vec;
 
     while (size--)
     {
