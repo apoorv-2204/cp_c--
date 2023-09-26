@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "clang",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
@@ -13,7 +13,7 @@
             "configurationProvider": "ms-vscode.makefile-tools"
         },
         {
-            "name": "linux-apoorv",
+            "name": "G++",
             "includePath": [
                 "${workspaceFolder}/**"
             ],

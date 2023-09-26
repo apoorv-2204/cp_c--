@@ -2,7 +2,7 @@
 - CP CPP setup
 -  https://code.visualstudio.com/docs/cpp/pipe-transport
 
-
+-https://xlinux.nist.gov/dads/
 
 
 ![demo](snip/ss.png)

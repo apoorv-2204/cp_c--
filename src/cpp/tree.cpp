@@ -1,5 +1,8 @@
 
-#include <utils.hpp>
+#include "utils.hpp"
+#include <queue>
+#include <iostream>
+#include <algorithm>
 
 class Node
 {
@@ -25,18 +28,15 @@ public:
     //     int data;
     //     cout<< "Enter data"<<endl;
     //     cin>> data;
-
     //     if(data==-1) return nullptr;
     //     Node* newNode= new Node(data);
-
     //     cout<< "For Left  Node of "<<data<<endl;
     //     newNode-> left = buildTree();
-
     //     cout<< "For Right  Node of "<<data<<endl;
-    //     newNode-> right= buildTree();
-
+    //     newNode-> right= buildTree();`
     //     return newNode;
     // }
+    // std::vector arr{20, 40, 60, -1, 80, -1, -1, -1, -1};
 
     static Node *buildTree(std::vector<int> &arr)
     {
@@ -47,15 +47,21 @@ public:
             return new Node(arr[0]);
         return buildTree(arr, current_index);
     }
+    // std::vector arr{20, 40, 60, -1, 80, -1, -1, -1, -1};
 
     static Node *buildTree(std::vector<int> &arr, int &current_index)
     {
+        // Utils::dbg("buildTree", current_index);
+
         if (current_index >= arr.size())
             return nullptr;
         int data = arr[current_index];
 
         if (data == -1)
+        {
+            current_index++;
             return nullptr;
+        }
 
         Node *newNode = new Node(data);
         current_index++;
@@ -86,21 +92,21 @@ public:
         {
             Node *temp = q.front();
             q.pop();
-            if (temp == nulptr)
-                cout << endl;
+            if (temp == nullptr)
+                std::cout << std::endl;
             q.push(nullptr);
             if (temp->left)
                 q.push(temp->left);
             if (temp->right)
                 q.push(temp->right);
             //    infinite loop pushing null pointer
-            cout << temp->data << " ";
+            std::cout << temp->data << " ";
         }
     }
 
     static void levelOrderTraversalWithLevels(Node *rootNode)
     {
-        queue<Node *> q;
+        std::queue<Node *> q;
         q.push(rootNode);
         q.push(nullptr);
 
@@ -112,13 +118,15 @@ public:
 
             if (temp == nullptr)
             {
-                cout << endl;
+                std::cout << "..." << std::endl;
                 if (!q.empty())
-                    q.push(nullptr); // imp
+                {
+                    q.push(nullptr);
+                } // imp
             }
             else
             {
-                cout << temp->data << " ";
+                std::cout << "..." << temp->data << "...";
                 if (temp->left)
                     q.push(temp->left);
                 if (temp->right)
@@ -133,7 +141,7 @@ public:
         if (rootNode == nullptr)
             return;
         inorder_traversal(rootNode->left);
-        cout << rootNode->data << " ";
+        std::cout << rootNode->data << " ";
         inorder_traversal(rootNode->right);
     }
 
@@ -142,7 +150,7 @@ public:
     {
         if (rootNode == nullptr)
             return;
-        cout << rootNode->data << " ";
+        std::cout << rootNode->data << " ";
         preorder_traversal(rootNode->left);
         preorder_traversal(rootNode->right);
     }
@@ -154,34 +162,47 @@ public:
             return;
         postorder_traversal(rootNode->left);
         postorder_traversal(rootNode->right);
-        cout << rootNode->data << " ";
+        std::cout << rootNode->data << " ";
     }
-}
 
-int
-tree_main()
-{
-    Node *root = buildTree();
-    levelOrderTraversal(root);
-
-    return 0;
-}
-
-// recursion break down do for one and rest will follow
-// The maximum distance of any node from the rootNode. If a tree has only one node (the rootNode), the height is zero. The height of an empty tree is not defined.
-int height_of_tree(Node *rootNode)
-{
-    // calculate height of left subtree and right subtree
-    // chose the max one and add one to it to include for rootNode
-    if (rootNode == nullptr)
-        return 0;
-    int height = 1 + max(height_of_tree(rootNode->left), height_of_tree(rootNode->right));
-    return height;
-}
-
+    // recursion break down do for one and rest will follow
+    // The maximum distance of any node from the rootNode. If a tree has only one node (the rootNode), the height is zero. The height of an empty tree is not defined.
+    static int height_of_tree(Node *rootNode)
+    {
+        // calculate height of left subtree and right subtree
+        // chose the max one and add one to it to include for rootNode
+        if (rootNode == nullptr)
+            return 0;
+        int height = 1 + std::max(height_of_tree(rootNode->left), height_of_tree(rootNode->right));
+        return height;
+    }
+};
 // https://xlinux.nist.gov/dads/ imp
 // The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the rootNode.
 // The length of a path between two nodes is represented by the number of edges between them.
-// int diameter_of_tree(Node * rootNode){
+int diameter_of_tree(Node *rootNode)
+{
+}
 
-// }
+void tree_main()
+{
+    // std::vector arr{20, 40, 60, -1, 80, -1, -1, -1, -1};
+    std::vector arr{
+        10,
+        60,
+        80,
+        -1,
+        -1,
+        20,
+        70,
+        -1,
+        -1,
+        40,
+        -1,
+        -1, 30, -1, 50, -1, -1};
+
+    Node *root = Tree::buildTree(arr);
+    Tree::levelOrderTraversalWithLevels(root);
+
+    Utils::dbg("diameter", diameter_of_tree(root));
+}

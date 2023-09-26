@@ -1,24 +1,37 @@
 #pragma once
 
-#include <iostream>
 #include <vector>
 #include <queue>
-#include <string>
+#include <iostream>
+#include "utils.hpp" // Assuming utils.hpp has necessary includes and declarations
 
-using namespace std;
-
-class Node {
+class Node
+{
 public:
-    Node* left;
-    Node* right;
+    Node *left;
+    Node *right;
     int data;
+
     Node(int data);
 };
 
-Node* buildTree();
-void levelOrderTraversal(Node* root);
-void levelOrderTraversalWithLevels(Node* root);
-void inorder_traversal(Node* root);
-void preorder_traversal(Node* root);
-void postorder_traversal(Node* root);
-int height_of_tree(Node* root);
+class Tree
+{
+public:
+    Node *root;
+
+    static Node *buildTree(std::vector<int> &arr);
+    static Node *buildTree(std::vector<int> &arr, int &current_index);
+    static void levelOrderTraversal(Node *rootNode);
+    static void levelOrderTraversalWithLevels(Node *rootNode);
+    static void inorder_traversal(Node *rootNode);
+    static void preorder_traversal(Node *rootNode);
+    static void postorder_traversal(Node *rootNode);
+    static int height_of_tree(Node *rootNode);
+};
+
+void tree_main();
+
+// #pragma once directive, which is a modern way to prevent double
+//  inclusion. This is an alternative to the traditional include guards
+//  (#ifndef, #define, and #endif).
