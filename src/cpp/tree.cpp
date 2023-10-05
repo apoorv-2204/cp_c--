@@ -3,7 +3,7 @@
 #include <queue>
 #include <iostream>
 #include <algorithm>
-
+using namespace std;
 class Node
 {
 public:
@@ -23,7 +23,6 @@ class Tree
 {
 public:
     Node *root;
-
     // Node* buildTree(){
     //     int data;
     //     cout<< "Enter data"<<endl;
@@ -176,13 +175,131 @@ public:
         int height = 1 + std::max(height_of_tree(rootNode->left), height_of_tree(rootNode->right));
         return height;
     }
+
+    int rangeSumBST(Node *root, int &low, int &high)
+    {
+        if (root == nullptr)
+            return 0;
+        int sum = 0;
+        if (root->data >= low && root->data <= high)
+        {
+            sum += root->data;
+        }
+
+        sum = sum + rangeSumBST(root->left, low, high) + rangeSumBST(root->right, low, high);
+        return sum;
+    }
+
+    // https://xlinux.nist.gov/dads/ imp
+    // The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the rootNode.
+    // The length of a path between two nodes is represented by the number of edges between them.
+    int diameterOfBinaryTree(Node *rootNode)
+    {
+        // bc root in null return 0
+        if (rootNode == nullptr)
+        {
+            return 0;
+        }
+        int diameterOfCurrentNode = height(root->left) + height(root->right);
+
+        return std::max({diameterOfCurrentNode, diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right)});
+    }
+    int height(Node *root)
+    {
+        if (root == nullptr)
+        {
+            return 0;
+        }
+        return 1 + std::max(height(root->left), height(root->right));
+    }
+
+    bool isBalanced(Node *root)
+    {
+        if (root == nullptr)
+            return true;
+        // check if current node is balacnced
+        return abs(height(root->left) - height(root->right)) <= 1 && isBalanced(root->left) && isBalanced(root->right);
+    }
 };
-// https://xlinux.nist.gov/dads/ imp
-// The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the rootNode.
-// The length of a path between two nodes is represented by the number of edges between them.
-int diameter_of_tree(Node *rootNode)
+
+class TreeNode
 {
+public:
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+bool hasPathSum(TreeNode *rootNode, int targetSum)
+{
+    if (rootNode == nullptr)
+        return false;
+    int newTargetSum = targetSum - rootNode->val;
+    if (newTargetSum == 0 && isLeafNode(rootNode))
+        return true;
+    return hasPathSum(rootNode->left, newTargetSum) || hasPathSum(rootNode->right, newTargetSum);
 }
+bool isLeafNode(TreeNode *rootNode)
+{
+    if (rootNode->left == nullptr && rootNode->right == nullptr)
+        return true;
+    return false;
+}
+
+TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+{
+    // bc root ==nullptr return nullptr
+    // is currentnode equal to any of node p and q is so return that node pointer
+    // else search in left and search in right
+
+    if (root == nullptr)
+        return nullptr;
+    if (root == p)
+        return p;
+    if (root == q)
+        return q;
+
+    TreeNode *leftRes = lowestCommonAncestor(root->left, p, q);
+    TreeNode *rightRes = lowestCommonAncestor(root->right, p, q);
+
+    if (leftRes != nullptr && rightRes != nullptr)
+        return root;
+    if (leftRes != nullptr)
+        return leftRes;
+    if (rightRes != nullptr)
+        return rightRes;
+    return nullptr;
+}
+vector<vector<int>> pathSum(TreeNode *root, int targetSum)
+{
+    vector<vector<int>> res;
+    vector<int> path;
+    ps(root, targetSum, path, res);
+    return res;
+}
+
+void ps(TreeNode *root, int targetSum, vector<int> path, vector<vector<int>> &res)
+{
+    if (root == nullptr)
+        return;
+
+    int newTargetSum = targetSum - root->val;
+    path.push_back(root->val);
+
+    if (newTargetSum == 0 && root->left == nullptr && root->right == nullptr)
+    {
+        res.push_back(path);
+        return;
+    }
+
+    ps(root->left, newTargetSum, path, res);
+    ps(root->right, newTargetSum, path, res);
+}
+
+
 
 void tree_main()
 {
