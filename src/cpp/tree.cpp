@@ -363,16 +363,33 @@ namespace Tree
         return tn;
     }
 
+    vector<int> *topView(TreeNode *root)
+    {
+        map<int, int> topView;
+        queue<pair<TreeNode *, int>> q;
+        q.push(make_pair(root, 0));
+
+        while (!q.empty())
+        {
+            pair<TreeNode *, int> p = q.front();
+            q.pop();
+            TreeNode *front_node = p.first;
+            int horizontalDistance = p.second;
+            if (topView.find(front_node->val) == topView.end())
+            {
+                topView[front_node->val] = horizontalDistance;
+            }
+        }
+    }
+
     void tree_main()
     {
         // std::vector arr{20, 40, 60, -1, 80, -1, -1, -1, -1};
-        std::vector arr{1, 2, 4, -1, -1, 5, -1, -1, 3, -1, -1};
+        // std::vector arr{1, 2, 4, -1, -1, 5, -1, -1, 3, -1, -1};
+        std::vector arr{10, 20, 30, -1, -1, 40, 60, -1, -1, 70, -1, -1, 50, -1, 90, 80, -1, -1, 100, -1, -1};
 
-        TreeNode *root = Tree::buildTree(arr);
-        int p = 4, k = 5;
-        TreeNode *node = kthAncestor(root, p, k);
-
-        Utils::dbg("kthAncestor", node->val);
+        TreeNode *root = buildTree(arr);
+        levelOrderTraversalWithLevels(root);
     }
 
 }

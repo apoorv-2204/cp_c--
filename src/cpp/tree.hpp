@@ -4,34 +4,20 @@
 #include <queue>
 #include <iostream>
 #include "utils.hpp" // Assuming utils.hpp has necessary includes and declarations
-
-class Node
+namespace Tree
 {
-public:
-    Node *left;
-    Node *right;
-    int data;
+    class TreeNode
+    {
+    public:
+        TreeNode *left;
+        TreeNode *right;
+        int val;
 
-    Node(int data);
-};
+        TreeNode(int data);
+    };
 
-class Tree
-{
-public:
-    Node *root;
-
-    static Node *buildTree(std::vector<int> &arr);
-    static Node *buildTree(std::vector<int> &arr, int &current_index);
-    static void levelOrderTraversal(Node *rootNode);
-    static void levelOrderTraversalWithLevels(Node *rootNode);
-    static void inorder_traversal(Node *rootNode);
-    static void preorder_traversal(Node *rootNode);
-    static void postorder_traversal(Node *rootNode);
-    static int height_of_tree(Node *rootNode);
-};
-
-void tree_main();
-
+    void tree_main();
+}
 // #pragma once directive, which is a modern way to prevent double
 //  inclusion. This is an alternative to the traditional include guards
 //  (#ifndef, #define, and #endif).

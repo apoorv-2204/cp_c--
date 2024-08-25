@@ -7,7 +7,7 @@ int main()
 {
     Utils::dbg("Hello -- start", 87);
 
-    tree_main();
+    Tree::tree_main();
 
     Utils::dbg("Hello -- end", 87);
     return 0;
